@@ -59,17 +59,17 @@ function initDownloads() {
     // Download URLs configuration
     const downloadUrls = {
         mac: {
-            url: 'https://github.com/mainbooth/desktop-drive/releases/latest/download/MainBoothDrive-mac.dmg',
+            url: 'https://github.com/Mooon037/mainbooth-desktop-drive/releases/latest/download/MainBoothDrive-mac.dmg',
             filename: 'MainBoothDrive-1.0.0-mac.dmg',
             size: '45.2 MB'
         },
         windows: {
-            url: 'https://github.com/mainbooth/desktop-drive/releases/latest/download/MainBoothDrive-windows.exe',
+            url: 'https://github.com/Mooon037/mainbooth-desktop-drive/releases/latest/download/MainBoothDrive-windows.exe',
             filename: 'MainBoothDrive-1.0.0-windows.exe',
             size: '52.8 MB'
         },
         linux: {
-            url: 'https://github.com/mainbooth/desktop-drive/releases/latest/download/MainBoothDrive-linux.AppImage',
+            url: 'https://github.com/Mooon037/mainbooth-desktop-drive/releases/latest/download/MainBoothDrive-linux.AppImage',
             filename: 'MainBoothDrive-1.0.0-linux.AppImage',
             size: '48.6 MB'
         }
@@ -362,7 +362,7 @@ function trackEvent(eventName, properties = {}) {
 
 // Version checking and update notifications
 function checkForUpdates() {
-    fetch('https://api.github.com/repos/mainbooth/desktop-drive/releases/latest')
+    fetch('https://api.github.com/repos/Mooon037/mainbooth-desktop-drive/releases/latest')
         .then(response => response.json())
         .then(data => {
             const latestVersion = data.tag_name;
