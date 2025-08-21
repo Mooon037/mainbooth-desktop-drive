@@ -363,8 +363,15 @@ function trackEvent(eventName, properties = {}) {
 // Version checking and update notifications
 function checkForUpdates() {
     fetch('https://api.github.com/repos/Mooon037/mainbooth-desktop-drive/releases/latest')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                console.log('릴리스 정보를 가져올 수 없습니다:', response.status);
+                return null;
+            }
+            return response.json();
+        })
         .then(data => {
+            if (!data) return;
             const latestVersion = data.tag_name;
             const currentVersion = '1.0.0'; // This should be dynamically set
             
