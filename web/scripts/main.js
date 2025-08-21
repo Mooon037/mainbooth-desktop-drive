@@ -59,17 +59,17 @@ function initDownloads() {
     // Download URLs configuration
     const downloadUrls = {
         mac: {
-            url: 'https://github.com/mainbooth/desktop-drive/releases/latest/download/MainBoothDrive-mac.dmg',
+            url: 'https://github.com/Mooon037/mainbooth-desktop-drive/releases/download/v1.0.0/MainBoothDrive-v1.0.0-mac.dmg',
             filename: 'MainBoothDrive-1.0.0-mac.dmg',
             size: '45.2 MB'
         },
         windows: {
-            url: 'https://github.com/mainbooth/desktop-drive/releases/latest/download/MainBoothDrive-windows.exe',
+            url: 'https://github.com/Mooon037/mainbooth-desktop-drive/releases/download/v1.0.0/MainBoothDrive-v1.0.0-windows.exe',
             filename: 'MainBoothDrive-1.0.0-windows.exe',
             size: '52.8 MB'
         },
         linux: {
-            url: 'https://github.com/mainbooth/desktop-drive/releases/latest/download/MainBoothDrive-linux.AppImage',
+            url: 'https://github.com/Mooon037/mainbooth-desktop-drive/releases/download/v1.0.0/MainBoothDrive-v1.0.0-linux.AppImage',
             filename: 'MainBoothDrive-1.0.0-linux.AppImage',
             size: '48.6 MB'
         }
