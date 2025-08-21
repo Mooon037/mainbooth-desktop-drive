@@ -1,0 +1,438 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 1.0.0)'
+        required: true
+        default: '1.0.0'
+
+env:
+  FLUTTER_VERSION: '3.16.0'
+  
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build macOS app
+        run: |
+          flutter build macos --release
+          
+      - name: Import signing certificate
+        if: secrets.MACOS_CERTIFICATE
+        env:
+          MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+          MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+        run: |
+          echo $MACOS_CERTIFICATE | base64 --decode > certificate.p12
+          security create-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "" build.keychain
+
+      - name: Sign macOS app
+        if: secrets.MACOS_DEVELOPER_ID
+        env:
+          MACOS_DEVELOPER_ID: ${{ secrets.MACOS_DEVELOPER_ID }}
+        run: |
+          codesign --force --deep --sign "$MACOS_DEVELOPER_ID" build/macos/Build/Products/Release/mainbooth_drive.app
+
+      - name: Create DMG
+        run: |
+          # DMG 생성 스크립트
+          brew install create-dmg
+          create-dmg \
+            --volname "Main Booth Drive" \
+            --window-pos 200 120 \
+            --window-size 600 400 \
+            --icon-size 100 \
+            --icon "mainbooth_drive.app" 175 120 \
+            --hide-extension "mainbooth_drive.app" \
+            --app-drop-link 425 120 \
+            "MainBoothDrive-${{ github.ref_name }}-mac.dmg" \
+            "build/macos/Build/Products/Release/"
+
+      - name: Notarize DMG
+        if: secrets.APPLE_ID && secrets.APPLE_PASSWORD && secrets.APPLE_TEAM_ID
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          xcrun notarytool submit "MainBoothDrive-${{ github.ref_name }}-mac.dmg" \
+            --apple-id "$APPLE_ID" \
+            --password "$APPLE_PASSWORD" \
+            --team-id "$APPLE_TEAM_ID" \
+            --wait
+          xcrun stapler staple "MainBoothDrive-${{ github.ref_name }}-mac.dmg"
+
+      - name: Upload macOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-dmg
+          path: MainBoothDrive-${{ github.ref_name }}-mac.dmg
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build Windows app
+        run: |
+          flutter build windows --release
+
+      - name: Create Windows installer
+        shell: pwsh
+        run: |
+          # NSIS 설치
+          choco install nsis -y
+          
+          # 설치 프로그램 스크립트 생성
+          $nsis_script = @"
+          !define APP_NAME "Main Booth Drive"
+          !define APP_VERSION "${{ github.ref_name }}"
+          !define APP_PUBLISHER "Main Booth"
+          !define APP_URL "https://mainbooth.com"
+          !define APP_EXE "mainbooth_drive.exe"
+          
+          Name "`${APP_NAME}"
+          OutFile "MainBoothDrive-`${APP_VERSION}-windows.exe"
+          Unicode True
+          InstallDir "`$PROGRAMFILES64\`${APP_NAME}"
+          InstallDirRegKey HKLM "Software\`${APP_NAME}" "InstallLocation"
+          RequestExecutionLevel admin
+          
+          !include "MUI2.nsh"
+          
+          !define MUI_ABORTWARNING
+          !define MUI_ICON "assets\app-icon.ico"
+          !define MUI_UNICON "assets\app-icon.ico"
+          
+          !insertmacro MUI_PAGE_WELCOME
+          !insertmacro MUI_PAGE_LICENSE "LICENSE"
+          !insertmacro MUI_PAGE_DIRECTORY
+          !insertmacro MUI_PAGE_INSTFILES
+          !insertmacro MUI_PAGE_FINISH
+          
+          !insertmacro MUI_UNPAGE_WELCOME
+          !insertmacro MUI_UNPAGE_CONFIRM
+          !insertmacro MUI_UNPAGE_INSTFILES
+          !insertmacro MUI_UNPAGE_FINISH
+          
+          !insertmacro MUI_LANGUAGE "Korean"
+          !insertmacro MUI_LANGUAGE "English"
+          
+          Section "MainSection" SEC01
+            SetOutPath "`$INSTDIR"
+            File /r "build\windows\runner\Release\*"
+            
+            CreateDirectory "`$SMPROGRAMS\`${APP_NAME}"
+            CreateShortCut "`$SMPROGRAMS\`${APP_NAME}\`${APP_NAME}.lnk" "`$INSTDIR\`${APP_EXE}"
+            CreateShortCut "`$DESKTOP\`${APP_NAME}.lnk" "`$INSTDIR\`${APP_EXE}"
+            
+            WriteRegStr HKLM "Software\`${APP_NAME}" "InstallLocation" "`$INSTDIR"
+            WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\`${APP_NAME}" "DisplayName" "`${APP_NAME}"
+            WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\`${APP_NAME}" "UninstallString" "`$INSTDIR\uninstall.exe"
+            WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\`${APP_NAME}" "DisplayIcon" "`$INSTDIR\`${APP_EXE}"
+            WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\`${APP_NAME}" "Publisher" "`${APP_PUBLISHER}"
+            WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\`${APP_NAME}" "URLInfoAbout" "`${APP_URL}"
+            WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\`${APP_NAME}" "DisplayVersion" "`${APP_VERSION}"
+            WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\`${APP_NAME}" "NoModify" 1
+            WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\`${APP_NAME}" "NoRepair" 1
+            
+            WriteUninstaller "`$INSTDIR\uninstall.exe"
+          SectionEnd
+          
+          Section "Uninstall"
+            Delete "`$INSTDIR\uninstall.exe"
+            RMDir /r "`$INSTDIR"
+            
+            DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\`${APP_NAME}"
+            DeleteRegKey HKLM "Software\`${APP_NAME}"
+            
+            Delete "`$SMPROGRAMS\`${APP_NAME}\`${APP_NAME}.lnk"
+            RMDir "`$SMPROGRAMS\`${APP_NAME}"
+            Delete "`$DESKTOP\`${APP_NAME}.lnk"
+          SectionEnd
+          "@
+          
+          $nsis_script | Out-File -FilePath "installer.nsi" -Encoding UTF8
+          
+          # 설치 프로그램 빌드
+          & "C:\Program Files (x86)\NSIS\makensis.exe" installer.nsi
+
+      - name: Sign Windows installer
+        if: secrets.WINDOWS_CERTIFICATE
+        shell: pwsh
+        env:
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PWD: ${{ secrets.WINDOWS_CERTIFICATE_PWD }}
+        run: |
+          $cert_path = "certificate.p12"
+          [System.IO.File]::WriteAllBytes($cert_path, [System.Convert]::FromBase64String($env:WINDOWS_CERTIFICATE))
+          
+          & "C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\signtool.exe" sign `
+            /f $cert_path `
+            /p $env:WINDOWS_CERTIFICATE_PWD `
+            /t http://timestamp.digicert.com `
+            /v "MainBoothDrive-${{ github.ref_name }}-windows.exe"
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: MainBoothDrive-${{ github.ref_name }}-windows.exe
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build Linux app
+        run: |
+          flutter build linux --release
+
+      - name: Create AppImage
+        run: |
+          # AppImage 도구 다운로드
+          wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+          
+          # AppDir 구조 생성
+          mkdir -p MainBoothDrive.AppDir/usr/bin
+          mkdir -p MainBoothDrive.AppDir/usr/share/applications
+          mkdir -p MainBoothDrive.AppDir/usr/share/icons/hicolor/256x256/apps
+          
+          # 바이너리 복사
+          cp -r build/linux/x64/release/bundle/* MainBoothDrive.AppDir/usr/bin/
+          
+          # Desktop 파일 생성
+          cat > MainBoothDrive.AppDir/usr/share/applications/mainbooth-drive.desktop << EOF
+          [Desktop Entry]
+          Type=Application
+          Name=Main Booth Drive
+          Exec=mainbooth_drive
+          Icon=mainbooth-drive
+          Comment=음악 협업을 위한 클라우드 드라이브
+          Categories=AudioVideo;Audio;
+          EOF
+          
+          # 아이콘 복사 (있는 경우)
+          if [ -f "assets/app-icon.png" ]; then
+            cp assets/app-icon.png MainBoothDrive.AppDir/usr/share/icons/hicolor/256x256/apps/mainbooth-drive.png
+          fi
+          
+          # AppRun 스크립트 생성
+          cat > MainBoothDrive.AppDir/AppRun << 'EOF'
+          #!/bin/bash
+          SELF=$(readlink -f "$0")
+          HERE=${SELF%/*}
+          export PATH="${HERE}/usr/bin/:${PATH}"
+          export LD_LIBRARY_PATH="${HERE}/usr/lib/:${LD_LIBRARY_PATH}"
+          cd "${HERE}/usr/bin"
+          exec "./mainbooth_drive" "$@"
+          EOF
+          
+          chmod +x MainBoothDrive.AppDir/AppRun
+          
+          # AppImage 생성
+          ./appimagetool-x86_64.AppImage MainBoothDrive.AppDir MainBoothDrive-${{ github.ref_name }}-linux.AppImage
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-appimage
+          path: MainBoothDrive-${{ github.ref_name }}-linux.AppImage
+
+  build-website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Build website
+        run: |
+          # 버전 정보 업데이트
+          sed -i "s/v1\.0\.0/v${{ github.ref_name }}/g" web/index.html
+          
+          # 다운로드 링크 업데이트
+          sed -i "s|releases/latest/download/|releases/download/${{ github.ref_name }}/|g" web/scripts/main.js
+          
+          # 웹사이트 빌드 결과물 준비
+          mkdir -p website-dist
+          cp -r web/* website-dist/
+
+      - name: Upload website artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: website
+          path: website-dist/
+
+  create-release:
+    needs: [build-macos, build-windows, build-linux, build-website]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Main Booth Drive ${{ github.ref_name }}
+          body: |
+            ## Main Booth Drive ${{ github.ref_name }}
+
+            ### 🎵 주요 기능
+            - **OS 네이티브 통합**: macOS Finder 및 Windows Explorer 완벽 통합
+            - **실시간 동기화**: 파일 변경사항 즉시 반영
+            - **모바일 연동**: Main Booth 앱과 완벽한 연동
+            - **협업 시스템**: 권한 기반 안전한 협업 환경
+
+            ### 📥 다운로드
+            - **macOS**: `MainBoothDrive-${{ github.ref_name }}-mac.dmg` (macOS 10.15+)
+            - **Windows**: `MainBoothDrive-${{ github.ref_name }}-windows.exe` (Windows 10+)
+            - **Linux**: `MainBoothDrive-${{ github.ref_name }}-linux.AppImage` (Ubuntu 18.04+)
+
+            ### 🔧 설치 방법
+            자세한 설치 방법은 [다운로드 페이지](https://drive.mainbooth.com)를 참조하세요.
+
+            ### 🆕 변경사항
+            - 초기 릴리스
+            - 모든 핵심 기능 구현 완료
+            - 플랫폼별 네이티브 통합 지원
+
+            ### ⚠️ 알려진 이슈
+            - 일부 안티바이러스 소프트웨어에서 오탐지 가능 (디지털 서명 확인 요망)
+            - 최초 실행 시 권한 승인 필요
+
+            ### 🔗 링크
+            - [공식 웹사이트](https://mainbooth.com)
+            - [사용자 가이드](https://docs.mainbooth.com)
+            - [지원 센터](https://support.mainbooth.com)
+          files: |
+            macos-dmg/MainBoothDrive-${{ github.ref_name }}-mac.dmg
+            windows-installer/MainBoothDrive-${{ github.ref_name }}-windows.exe
+            linux-appimage/MainBoothDrive-${{ github.ref_name }}-linux.AppImage
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-website:
+    needs: [create-release]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download website artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: website
+          path: website-dist
+
+      - name: Deploy to Vercel
+        if: secrets.VERCEL_TOKEN
+        run: |
+          npm install -g vercel
+          cd website-dist
+          vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --confirm
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+
+      - name: Deploy to AWS S3
+        if: secrets.AWS_ACCESS_KEY_ID
+        run: |
+          aws s3 sync website-dist s3://${{ secrets.S3_BUCKET }} --delete
+          
+          # CloudFront 무효화
+          if [ -n "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" ]; then
+            aws cloudfront create-invalidation \
+              --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+              --paths "/*"
+          fi
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
+  notify:
+    needs: [create-release, deploy-website]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Notify Slack
+        if: secrets.SLACK_WEBHOOK_URL
+        run: |
+          status=${{ needs.create-release.result == 'success' && needs.deploy-website.result == 'success' && '✅ 성공' || '❌ 실패' }}
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{\"text\":\"Main Booth Drive ${{ github.ref_name }} 빌드 및 배포 ${status}\"}" \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notify Discord
+        if: secrets.DISCORD_WEBHOOK_URL
+        run: |
+          status=${{ needs.create-release.result == 'success' && needs.deploy-website.result == 'success' && '✅ 성공' || '❌ 실패' }}
+          curl -X POST -H 'Content-Type: application/json' \
+            -d "{\"content\":\"🎵 Main Booth Drive ${{ github.ref_name }} 빌드 및 배포 ${status}\\n\\n📥 다운로드: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}\\n🌐 웹사이트: https://drive.mainbooth.com\"}" \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}

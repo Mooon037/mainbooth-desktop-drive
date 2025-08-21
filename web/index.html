@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Booth Drive - 음악 협업을 위한 클라우드 드라이브</title>
+    <meta name="description" content="음악 제작자들을 위한 데스크탑 클라우드 드라이브. DAW와 완벽하게 통합되어 실시간 협업이 가능합니다.">
+    <meta name="keywords" content="음악, 협업, 클라우드, 드라이브, DAW, 데스크탑">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://drive.mainbooth.com/">
+    <meta property="og:title" content="Main Booth Drive - 음악 협업을 위한 클라우드 드라이브">
+    <meta property="og:description" content="음악 제작자들을 위한 데스크탑 클라우드 드라이브. DAW와 완벽하게 통합되어 실시간 협업이 가능합니다.">
+    <meta property="og:image" content="https://drive.mainbooth.com/assets/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://drive.mainbooth.com/">
+    <meta property="twitter:title" content="Main Booth Drive - 음악 협업을 위한 클라우드 드라이브">
+    <meta property="twitter:description" content="음악 제작자들을 위한 데스크탑 클라우드 드라이브. DAW와 완벽하게 통합되어 실시간 협업이 가능합니다.">
+    <meta property="twitter:image" content="https://drive.mainbooth.com/assets/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="assets/logo.svg" alt="Main Booth Drive" class="logo">
+                <span class="brand-text">Main Booth Drive</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">기능</a>
+                <a href="#download" class="nav-link">다운로드</a>
+                <a href="#support" class="nav-link">지원</a>
+                <a href="https://mainbooth.com" class="nav-link" target="_blank">Main Booth</a>
+            </div>
+            <div class="nav-mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">음악 협업을 위한<br>클라우드 드라이브</h1>
+                    <p class="hero-description">
+                        DAW와 완벽하게 통합되어 일반 폴더처럼 사용할 수 있는 데스크탑 클라우드 드라이브입니다.
+                        실시간 동기화로 언제 어디서나 음악 프로젝트를 관리하세요.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#download" class="btn btn-primary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7,10 12,15 17,10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            무료 다운로드
+                        </a>
+                        <a href="#features" class="btn btn-secondary">기능 보기</a>
+                    </div>
+                    <div class="hero-platforms">
+                        <span class="platform-text">지원 플랫폼:</span>
+                        <div class="platform-icons">
+                            <img src="assets/macos-icon.svg" alt="macOS" title="macOS 10.15+">
+                            <img src="assets/windows-icon.svg" alt="Windows" title="Windows 10+">
+                            <img src="assets/linux-icon.svg" alt="Linux" title="Linux">
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="assets/hero-screenshot.png" alt="Main Booth Drive 스크린샷" class="screenshot">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">주요 기능</h2>
+                <p class="section-description">음악 제작 워크플로우를 위해 특별히 설계된 기능들</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22,4 12,14.01 9,11.01"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">OS 네이티브 통합</h3>
+                    <p class="feature-description">
+                        macOS Finder와 Windows Explorer에 완벽하게 통합되어 일반 폴더처럼 사용할 수 있습니다.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 7l-7 5 7 5V7z"></path>
+                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">실시간 동기화</h3>
+                    <p class="feature-description">
+                        파일 변경사항이 실시간으로 동기화되어 팀원들과 즉시 공유할 수 있습니다.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">스마트 캐싱</h3>
+                    <p class="feature-description">
+                        자주 사용하는 파일은 로컬에 캐시되어 빠른 접근이 가능합니다.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">버전 관리</h3>
+                    <p class="feature-description">
+                        파일의 모든 버전이 자동으로 저장되어 언제든지 이전 버전으로 되돌릴 수 있습니다.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 12l2 2 4-4"></path>
+                            <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                            <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
+                            <path d="M13 12h3"></path>
+                            <path d="M8 12H5"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">권한 관리</h3>
+                    <p class="feature-description">
+                        프로젝트별로 세밀한 권한 설정을 통해 안전한 협업 환경을 제공합니다.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5"></path>
+                            <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">모바일 연동</h3>
+                    <p class="feature-description">
+                        Main Booth 모바일 앱과 완벽하게 연동되어 어디서나 프로젝트에 접근할 수 있습니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">다운로드</h2>
+                <p class="section-description">운영체제에 맞는 버전을 선택하여 다운로드하세요</p>
+            </div>
+            <div class="download-cards">
+                <div class="download-card" data-platform="mac">
+                    <div class="download-header">
+                        <img src="assets/macos-icon.svg" alt="macOS" class="platform-icon">
+                        <div class="platform-info">
+                            <h3 class="platform-name">macOS</h3>
+                            <p class="platform-requirements">macOS 10.15 (Catalina) 이상</p>
+                        </div>
+                    </div>
+                    <div class="download-content">
+                        <div class="version-info">
+                            <span class="version-number">v1.0.0</span>
+                            <span class="file-size">45.2 MB</span>
+                        </div>
+                        <button class="btn btn-download" data-platform="mac">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7,10 12,15 17,10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            다운로드 (.dmg)
+                        </button>
+                    </div>
+                    <div class="download-features">
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            Finder 통합
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            File Provider Extension
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            Apple Silicon 지원
+                        </div>
+                    </div>
+                </div>
+
+                <div class="download-card" data-platform="windows">
+                    <div class="download-header">
+                        <img src="assets/windows-icon.svg" alt="Windows" class="platform-icon">
+                        <div class="platform-info">
+                            <h3 class="platform-name">Windows</h3>
+                            <p class="platform-requirements">Windows 10 버전 1903 이상</p>
+                        </div>
+                    </div>
+                    <div class="download-content">
+                        <div class="version-info">
+                            <span class="version-number">v1.0.0</span>
+                            <span class="file-size">52.8 MB</span>
+                        </div>
+                        <button class="btn btn-download" data-platform="windows">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7,10 12,15 17,10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            다운로드 (.exe)
+                        </button>
+                    </div>
+                    <div class="download-features">
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            Explorer 통합
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            Cloud Files API
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            자동 설치 프로그램
+                        </div>
+                    </div>
+                </div>
+
+                <div class="download-card" data-platform="linux">
+                    <div class="download-header">
+                        <img src="assets/linux-icon.svg" alt="Linux" class="platform-icon">
+                        <div class="platform-info">
+                            <h3 class="platform-name">Linux</h3>
+                            <p class="platform-requirements">Ubuntu 18.04+ / CentOS 7+</p>
+                        </div>
+                    </div>
+                    <div class="download-content">
+                        <div class="version-info">
+                            <span class="version-number">v1.0.0</span>
+                            <span class="file-size">48.6 MB</span>
+                        </div>
+                        <button class="btn btn-download" data-platform="linux">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7,10 12,15 17,10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            다운로드 (.AppImage)
+                        </button>
+                    </div>
+                    <div class="download-features">
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            GNOME/KDE 지원
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            FUSE 파일시스템
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            오픈소스
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="download-notes">
+                <div class="note">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <span>Main Booth 계정이 필요합니다. <a href="https://mainbooth.com/signup" target="_blank">무료 가입하기</a></span>
+                </div>
+                <div class="note">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12l2 2 4-4"></path>
+                        <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                        <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
+                        <path d="M13 12h3"></path>
+                        <path d="M8 12H5"></path>
+                    </div>
+                    <span>모든 다운로드는 디지털 서명되어 안전합니다.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Guide -->
+    <section class="installation-guide">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">설치 가이드</h2>
+                <p class="section-description">간단한 몇 단계로 Main Booth Drive를 설치하세요</p>
+            </div>
+            <div class="guide-tabs">
+                <button class="guide-tab active" data-tab="mac">macOS</button>
+                <button class="guide-tab" data-tab="windows">Windows</button>
+                <button class="guide-tab" data-tab="linux">Linux</button>
+            </div>
+            <div class="guide-content">
+                <div class="guide-panel active" id="guide-mac">
+                    <div class="guide-steps">
+                        <div class="guide-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>DMG 파일 다운로드</h4>
+                                <p>위의 다운로드 버튼을 클릭하여 DMG 파일을 다운로드합니다.</p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>DMG 파일 실행</h4>
+                                <p>다운로드된 DMG 파일을 더블클릭하여 마운트합니다.</p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Applications 폴더로 드래그</h4>
+                                <p>Main Booth Drive 앱을 Applications 폴더로 드래그하여 설치합니다.</p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>앱 실행 및 로그인</h4>
+                                <p>Applications 폴더에서 앱을 실행하고 Main Booth 계정으로 로그인합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="guide-panel" id="guide-windows">
+                    <div class="guide-steps">
+                        <div class="guide-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>EXE 파일 다운로드</h4>
+                                <p>위의 다운로드 버튼을 클릭하여 설치 프로그램을 다운로드합니다.</p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>설치 프로그램 실행</h4>
+                                <p>다운로드된 EXE 파일을 우클릭하여 "관리자 권한으로 실행"을 선택합니다.</p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>설치 과정 진행</h4>
+                                <p>설치 마법사의 안내에 따라 설치를 완료합니다.</p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>앱 실행 및 로그인</h4>
+                                <p>바탕화면 아이콘을 더블클릭하여 앱을 실행하고 로그인합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="guide-panel" id="guide-linux">
+                    <div class="guide-steps">
+                        <div class="guide-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>AppImage 파일 다운로드</h4>
+                                <p>위의 다운로드 버튼을 클릭하여 AppImage 파일을 다운로드합니다.</p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>실행 권한 부여</h4>
+                                <p>터미널에서 <code>chmod +x MainBoothDrive.AppImage</code> 명령을 실행합니다.</p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>FUSE 설치 (필요시)</h4>
+                                <p>Ubuntu: <code>sudo apt install fuse</code><br>CentOS: <code>sudo yum install fuse</code></p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>앱 실행</h4>
+                                <p>AppImage 파일을 더블클릭하거나 터미널에서 실행하여 로그인합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <section id="support" class="support">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">지원 및 문의</h2>
+                <p class="section-description">궁금한 점이 있으시면 언제든지 문의해주세요</p>
+            </div>
+            <div class="support-grid">
+                <div class="support-card">
+                    <div class="support-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="support-title">실시간 채팅</h3>
+                    <p class="support-description">빠른 답변을 원하시면 실시간 채팅을 이용해주세요.</p>
+                    <a href="#" class="support-link">채팅 시작하기</a>
+                </div>
+                <div class="support-card">
+                    <div class="support-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="support-title">이메일 지원</h3>
+                    <p class="support-description">자세한 문의사항은 이메일로 보내주세요.</p>
+                    <a href="mailto:support@mainbooth.com" class="support-link">support@mainbooth.com</a>
+                </div>
+                <div class="support-card">
+                    <div class="support-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                    </div>
+                    <h3 class="support-title">FAQ</h3>
+                    <p class="support-description">자주 묻는 질문들의 답변을 확인해보세요.</p>
+                    <a href="/faq" class="support-link">FAQ 보기</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="assets/logo.svg" alt="Main Booth" class="footer-logo">
+                        <span class="footer-brand-text">Main Booth</span>
+                    </div>
+                    <p class="footer-description">
+                        음악 제작자들을 위한 협업 플랫폼
+                    </p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="YouTube">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">제품</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://mainbooth.com">Main Booth 앱</a></li>
+                        <li><a href="#download">Desktop Drive</a></li>
+                        <li><a href="/pricing">요금제</a></li>
+                        <li><a href="/features">기능</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">지원</h4>
+                    <ul class="footer-links">
+                        <li><a href="/help">도움말</a></li>
+                        <li><a href="/faq">FAQ</a></li>
+                        <li><a href="/contact">문의하기</a></li>
+                        <li><a href="/status">서비스 상태</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">회사</h4>
+                    <ul class="footer-links">
+                        <li><a href="/about">회사 소개</a></li>
+                        <li><a href="/blog">블로그</a></li>
+                        <li><a href="/careers">채용</a></li>
+                        <li><a href="/press">보도자료</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; 2024 Main Booth. All rights reserved.</p>
+                </div>
+                <div class="footer-legal">
+                    <a href="/privacy">개인정보처리방침</a>
+                    <a href="/terms">이용약관</a>
+                    <a href="/cookies">쿠키 정책</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Download Modal -->
+    <div id="download-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">다운로드 준비</h3>
+                <button class="modal-close">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="download-info">
+                    <div class="download-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </div>
+                    <h4 id="modal-platform-name">macOS</h4>
+                    <p id="modal-file-info">MainBoothDrive-1.0.0-mac.dmg (45.2 MB)</p>
+                </div>
+                <div class="download-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progress-percentage">0%</span>
+                        <span id="download-speed">0 MB/s</span>
+                    </div>
+                </div>
+                <div class="download-actions">
+                    <button id="start-download" class="btn btn-primary">다운로드 시작</button>
+                    <button id="cancel-download" class="btn btn-secondary">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="scripts/main.js"></script>
+</body>
+</html>

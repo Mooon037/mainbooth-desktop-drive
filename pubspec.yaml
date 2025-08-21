@@ -1,0 +1,77 @@
+name: mainbooth_drive
+description: Main Booth Drive - 음악 협업을 위한 데스크탑 클라우드 드라이브
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Firebase
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.16.0
+  cloud_firestore: ^4.14.0
+  firebase_storage: ^11.6.0
+  
+  # 데스크탑 UI
+  window_manager: ^0.3.7
+  system_tray: ^2.0.3
+  
+  # 파일 시스템
+  path_provider: ^2.1.1
+  file_picker: ^6.1.1
+  
+  # 데이터베이스
+  sqflite_common_ffi: ^2.3.2
+  
+  # 상태 관리
+  provider: ^6.1.1
+  
+  # 유틸리티
+  crypto: ^3.0.3
+  intl: ^0.18.1
+  uuid: ^3.0.7
+  
+  # FFI
+  ffi: ^2.1.0
+  
+  # 네트워크
+  dio: ^5.4.0
+  
+  # 로깅
+  logger: ^2.0.2
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/icons/
+    - assets/images/
+  
+  fonts:
+    - family: Pretendard
+      fonts:
+        - asset: ../assets/fonts/Pretendard-Regular.otf
+          weight: 400
+        - asset: ../assets/fonts/Pretendard-Medium.otf
+          weight: 500
+        - asset: ../assets/fonts/Pretendard-SemiBold.otf
+          weight: 600
+        - asset: ../assets/fonts/Pretendard-Bold.otf
+          weight: 700
+
+# 플랫폼별 설정
+platforms:
+  macos:
+    identifier: com.mainbooth.drive
+  windows:
+    identifier: com.mainbooth.drive
+  linux:
+    identifier: com.mainbooth.drive
