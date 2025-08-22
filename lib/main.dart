@@ -20,7 +20,7 @@ import 'ui/screens/login_screen.dart';
 import 'ui/screens/settings_screen.dart';
 
 // Config
-import 'config/firebase_config.dart';
+import 'firebase_options.dart';
 
 void main() async {
   // Flutter 바인딩 초기화
@@ -88,14 +88,7 @@ Future<void> _initializeFirebase() async {
 
   try {
     await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: FirebaseConfig.apiKey,
-        authDomain: FirebaseConfig.authDomain,
-        projectId: FirebaseConfig.projectId,
-        storageBucket: FirebaseConfig.storageBucket,
-        messagingSenderId: FirebaseConfig.messagingSenderId,
-        appId: FirebaseConfig.appId,
-      ),
+      options: DefaultFirebaseOptions.currentPlatform,
     );
 
     logger.info('Firebase 초기화 완료');

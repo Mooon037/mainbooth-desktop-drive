@@ -39,6 +39,7 @@ dependencies:
   
   # 네트워크
   dio: ^5.4.0
+  http: ^1.2.2
   
   # 로깅
   logger: ^2.0.2
@@ -70,8 +71,5 @@ flutter:
 # 플랫폼별 설정
 platforms:
   macos:
-    identifier: com.mainbooth.drive
   windows:
-    identifier: com.mainbooth.drive
   linux:
-    identifier: com.mainbooth.drive

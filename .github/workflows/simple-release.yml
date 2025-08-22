@@ -1,0 +1,82 @@
+name: Simple Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 1.0.0)'
+        required: true
+        default: '1.0.0'
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+            echo "tag=v${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+            echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create placeholder release files
+        run: |
+          mkdir -p release-files
+          
+          # Create placeholder DMG for macOS
+          echo "Main Booth Drive for macOS - Coming Soon!" > release-files/MainBoothDrive-${{ steps.version.outputs.tag }}-mac.dmg
+          
+          # Create placeholder EXE for Windows
+          echo "Main Booth Drive for Windows - Coming Soon!" > release-files/MainBoothDrive-${{ steps.version.outputs.tag }}-windows.exe
+          
+          # Create placeholder AppImage for Linux
+          echo "Main Booth Drive for Linux - Coming Soon!" > release-files/MainBoothDrive-${{ steps.version.outputs.tag }}-linux.AppImage
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: Main Booth Drive ${{ steps.version.outputs.tag }}
+          body: |
+            ## Main Booth Drive ${{ steps.version.outputs.tag }}
+
+            ### 🎵 주요 기능
+            - **OS 네이티브 통합**: macOS Finder 및 Windows Explorer 완벽 통합
+            - **실시간 동기화**: 파일 변경사항 즉시 반영
+            - **모바일 연동**: Main Booth 앱과 완벽한 연동
+            - **협업 시스템**: 권한 기반 안전한 협업 환경
+
+            ### 📥 다운로드
+            - **macOS**: `MainBoothDrive-${{ steps.version.outputs.tag }}-mac.dmg` (macOS 10.15+)
+            - **Windows**: `MainBoothDrive-${{ steps.version.outputs.tag }}-windows.exe` (Windows 10+)
+            - **Linux**: `MainBoothDrive-${{ steps.version.outputs.tag }}-linux.AppImage` (Ubuntu 18.04+)
+
+            ### 🚀 현재 상태
+            **개발 중** - 현재 파일들은 플레이스홀더입니다. 
+            실제 빌드된 앱은 곧 업데이트될 예정입니다.
+
+            ### 🔧 설치 방법
+            자세한 설치 방법은 [다운로드 페이지](https://drive.mainbooth.com)를 참조하세요.
+
+            ### 🔗 링크
+            - [공식 웹사이트](https://mainbooth.com)
+            - [사용자 가이드](https://docs.mainbooth.com)
+            - [지원 센터](https://support.mainbooth.com)
+          files: |
+            release-files/MainBoothDrive-${{ steps.version.outputs.tag }}-mac.dmg
+            release-files/MainBoothDrive-${{ steps.version.outputs.tag }}-windows.exe
+            release-files/MainBoothDrive-${{ steps.version.outputs.tag }}-linux.AppImage
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
