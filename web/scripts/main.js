@@ -146,6 +146,18 @@ function initDownloads() {
     function startDownload() {
         if (!currentDownload) return;
 
+        // Show "coming soon" message instead of download
+        alert('🎵 Main Booth Drive\n\n곧 출시 예정입니다!\n빌드 및 릴리스 준비 중이며, 곧 다운로드 가능합니다.\n\n업데이트를 기다려주세요!');
+        
+        // Track download attempt
+        trackEvent('download_attempted', { 
+            filename: currentDownload.filename,
+            size: currentDownload.size,
+            status: 'coming_soon'
+        });
+        
+        return; // Don't proceed with actual download
+        
         startDownloadBtn.style.display = 'none';
         simulateDownload();
         
