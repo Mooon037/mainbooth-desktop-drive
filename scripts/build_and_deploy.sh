@@ -336,8 +336,8 @@ build_website() {
     rm "$web_dist/index.html.bak" 2>/dev/null || true
     
     # 다운로드 링크 업데이트 (GitHub Releases URL)
-    local github_repo="mainbooth/desktop-drive"
-    sed -i.bak "s|https://github.com/mainbooth/desktop-drive/releases/latest/download/|https://github.com/${github_repo}/releases/download/v${VERSION}/|g" "$web_dist/scripts/main.js"
+    local github_repo="Mooon037/mainbooth-desktop-drive"
+    sed -i.bak "s|https://github.com/Mooon037/mainbooth-desktop-drive/releases/latest/download/|https://github.com/${github_repo}/releases/download/v${VERSION}/|g" "$web_dist/scripts/main.js"
     rm "$web_dist/scripts/main.js.bak" 2>/dev/null || true
     
     log_success "웹사이트 빌드 완료"

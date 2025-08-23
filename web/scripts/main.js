@@ -56,24 +56,34 @@ function initDownloads() {
     const startDownloadBtn = document.getElementById('start-download');
     const cancelDownloadBtn = document.getElementById('cancel-download');
 
-    // Download URLs configuration
-    const downloadUrls = {
+    // Download URLs configuration - will be updated dynamically
+    let downloadUrls = {
         mac: {
-            url: 'https://github.com/Mooon037/mainbooth-desktop-drive/releases/download/v1.0.0/MainBoothDrive-v1.0.0-mac.dmg',
-            filename: 'MainBoothDrive-1.0.0-mac.dmg',
+            url: 'https://github.com/Mooon037/mainbooth-desktop-drive/releases/latest/download/MainBoothDrive-v1.0.0-mac.dmg',
+            filename: 'MainBoothDrive-v1.0.0-mac.dmg',
             size: '45.2 MB'
         },
         windows: {
-            url: 'https://github.com/Mooon037/mainbooth-desktop-drive/releases/download/v1.0.0/MainBoothDrive-v1.0.0-windows.exe',
-            filename: 'MainBoothDrive-1.0.0-windows.exe',
+            url: 'https://github.com/Mooon037/mainbooth-desktop-drive/releases/latest/download/MainBoothDrive-v1.0.0-windows.exe',
+            filename: 'MainBoothDrive-v1.0.0-windows.exe',
             size: '52.8 MB'
         },
         linux: {
-            url: 'https://github.com/Mooon037/mainbooth-desktop-drive/releases/download/v1.0.0/MainBoothDrive-v1.0.0-linux.AppImage',
-            filename: 'MainBoothDrive-1.0.0-linux.AppImage',
+            url: 'https://github.com/Mooon037/mainbooth-desktop-drive/releases/latest/download/MainBoothDrive-v1.0.0-linux.AppImage',
+            filename: 'MainBoothDrive-v1.0.0-linux.AppImage',
             size: '48.6 MB'
         }
     };
+
+    // Fetch latest release information and update download URLs
+    fetchLatestReleaseInfo().then(releaseInfo => {
+        if (releaseInfo) {
+            downloadUrls = releaseInfo;
+            updateDownloadUI(releaseInfo);
+        }
+    }).catch(error => {
+        console.log('최신 릴리스 정보를 가져올 수 없어 기본 URL을 사용합니다:', error);
+    });
 
     let currentDownload = null;
 
@@ -358,6 +368,102 @@ function trackEvent(eventName, properties = {}) {
     
     // Custom analytics can be added here
     // Example: sendToCustomAnalytics(eventName, properties);
+}
+
+// Fetch latest release information from GitHub API
+async function fetchLatestReleaseInfo() {
+    try {
+        const response = await fetch('https://api.github.com/repos/Mooon037/mainbooth-desktop-drive/releases/latest');
+        
+        if (!response.ok) {
+            throw new Error(`GitHub API 응답 오류: ${response.status}`);
+        }
+        
+        const releaseData = await response.json();
+        const version = releaseData.tag_name;
+        
+        // Find assets for each platform
+        const assets = releaseData.assets || [];
+        const downloadUrls = {};
+        
+        // macOS DMG
+        const macAsset = assets.find(asset => 
+            asset.name.includes('-mac.dmg') || asset.name.includes('-macos.dmg')
+        );
+        if (macAsset) {
+            downloadUrls.mac = {
+                url: macAsset.browser_download_url,
+                filename: macAsset.name,
+                size: formatFileSize(macAsset.size)
+            };
+        }
+        
+        // Windows EXE
+        const windowsAsset = assets.find(asset => 
+            asset.name.includes('-windows.exe') || asset.name.includes('-win.exe')
+        );
+        if (windowsAsset) {
+            downloadUrls.windows = {
+                url: windowsAsset.browser_download_url,
+                filename: windowsAsset.name,
+                size: formatFileSize(windowsAsset.size)
+            };
+        }
+        
+        // Linux AppImage
+        const linuxAsset = assets.find(asset => 
+            asset.name.includes('-linux.AppImage') || asset.name.includes('.AppImage')
+        );
+        if (linuxAsset) {
+            downloadUrls.linux = {
+                url: linuxAsset.browser_download_url,
+                filename: linuxAsset.name,
+                size: formatFileSize(linuxAsset.size)
+            };
+        }
+        
+        return downloadUrls;
+        
+    } catch (error) {
+        console.error('최신 릴리스 정보를 가져오는 중 오류 발생:', error);
+        return null;
+    }
+}
+
+// Format file size from bytes to human readable format
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+}
+
+// Update download UI with latest release information
+function updateDownloadUI(downloadUrls) {
+    // Update download cards with latest file sizes
+    Object.keys(downloadUrls).forEach(platform => {
+        const downloadCard = document.querySelector(`[data-platform="${platform}"]`);
+        if (downloadCard && downloadUrls[platform]) {
+            const sizeElement = downloadCard.querySelector('.download-size');
+            if (sizeElement) {
+                sizeElement.textContent = downloadUrls[platform].size;
+            }
+        }
+    });
+    
+    // Update version display if available
+    const versionElements = document.querySelectorAll('.version-display');
+    versionElements.forEach(element => {
+        // Extract version from filename (assuming format like MainBoothDrive-v1.0.0-platform.ext)
+        const macFilename = downloadUrls.mac?.filename || '';
+        const versionMatch = macFilename.match(/v(\d+\.\d+\.\d+)/);
+        if (versionMatch) {
+            element.textContent = `v${versionMatch[1]}`;
+        }
+    });
 }
 
 // Version checking and update notifications

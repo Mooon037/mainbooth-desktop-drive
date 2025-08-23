@@ -310,10 +310,10 @@ jobs:
       - name: Build website
         run: |
           # 버전 정보 업데이트
-          sed -i "s/v1\.0\.0/v${{ github.ref_name }}/g" web/index.html
+          sed -i "s/v1\.0\.0/${{ github.ref_name }}/g" web/index.html
           
-          # 다운로드 링크 업데이트
-          sed -i "s|releases/latest/download/|releases/download/${{ github.ref_name }}/|g" web/scripts/main.js
+          # 다운로드 링크 업데이트 - GitHub API를 사용하므로 동적으로 처리됨
+          # sed -i "s|releases/latest/download/|releases/download/${{ github.ref_name }}/|g" web/scripts/main.js
           
           # 웹사이트 빌드 결과물 준비
           mkdir -p website-dist
