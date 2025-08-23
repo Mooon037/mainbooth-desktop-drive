@@ -16,7 +16,7 @@ dependencies:
   firebase_storage: ^11.6.0
   
   # 데스크탑 UI
-  window_manager: ^0.3.7
+  window_manager: ^0.5.1
   system_tray: ^2.0.3
   
   # 파일 시스템
